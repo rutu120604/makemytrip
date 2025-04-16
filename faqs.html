@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - Make My Trip</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: url('tr16.jpg') no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            background: rgba(0, 0, 0, 0.8); /* Dark overlay for readability */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        h1 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .faq {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ffcc00;
+            padding-bottom: 10px;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
+            background: #ffcc00;
+            color: black;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .question:hover {
+            background: #e6b800;
+        }
+
+        .answer {
+            display: none;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .btn-back {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            background: #ffcc00;
+            color: black;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: 0.3s;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .btn-back:hover {
+            background: #e6b800;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="faq">
+            <div class="question" onclick="toggleAnswer(0)">1. How do I book a flight on Make My Trip?</div>
+            <div class="answer">You can book a flight by visiting our website, entering your travel details, selecting a flight, and making payment online.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question" onclick="toggleAnswer(1)">2. Can I cancel my booking and get a refund?</div>
+            <div class="answer">Yes, you can cancel your booking through your account. Refund policies vary depending on the airline and fare type.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question" onclick="toggleAnswer(2)">3. How can I contact customer support?</div>
+            <div class="answer">You can reach our customer support through our helpline, email, or live chat available on our website.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question" onclick="toggleAnswer(3)">4. Do I need to create an account to book a trip?</div>
+            <div class="answer">No, you can book as a guest, but having an account allows for easier booking management and exclusive discounts.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question" onclick="toggleAnswer(4)">5. How do I reschedule my flight?</div>
+            <div class="answer">You can reschedule your flight by logging into your account, selecting your booking, and choosing the "Reschedule" option.</div>
+        </div>
+
+        <a href="index.html" class="btn-back">Back to Home</a>
+    </div>
+
+    <script>
+        function toggleAnswer(index) {
+            var answers = document.querySelectorAll('.answer');
+            if (answers[index].style.display === "block") {
+                answers[index].style.display = "none";
+            } else {
+                answers.forEach(answer => answer.style.display = "none");
+                answers[index].style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

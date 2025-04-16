@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cabs - Make My Trip</title>
+  <link rel="stylesheet" href="styles/cabs.css">
+
+  <script>
+    // Sample data for cabs
+    const cabs = [
+      { id: 1, type: "Sedan", price: "$30", time: "10:00 AM", image:"tr29.jpg" },
+      { id: 2, type: "SUV", price: "$50", time: "12:00 PM", image:"tr30.jpg" },
+      { id: 3, type: "Luxury", price: "$100", time: "02:00 PM", image:"/images/tr31.jpg" },
+      { id: 4, type: "Economy", price: "$20", time: "06:00 AM", image:"tr32.jpg" },
+    ];
+
+    // Function to handle search
+    function handleSearch() {
+      const from = document.getElementById('from').value.toLowerCase();
+      const to = document.getElementById('to').value.toLowerCase();
+      const date = document.getElementById('date').value;
+
+      if (!from || !to || !date) {
+        alert('Please fill out all fields.');
+        return;
+      }
+
+      const filteredCabs = cabs.filter(cab => 
+        cab.type.toLowerCase().includes(from) && 
+        cab.type.toLowerCase().includes(to)
+      );
+
+      displayCabs(filteredCabs);
+    }
+
+    // Function to display cabs
+    function displayCabs(cabs) {
+      const cabsList = document.getElementById('cabs-list');
+      cabsList.innerHTML = ''; // Clear previous results
+
+      if (cabs.length === 0) {
+        cabsList.innerHTML = '<p class="no-cabs">No cabs found. Try adjusting your search.</p>';
+        return;
+      }
+
+      cabs.forEach(cab => {
+        const cabItem = document.createElement('div');
+        cabItem.className = 'cab-item';
+        cabItem.innerHTML = `
+          <div class="cab-image" style="background-image: url('tr31.jpg');">
+            <div class="cab-overlay">
+              <h3>${cab.type}</h3>
+              <p>${cab.time}</p>
+            </div>
+          </div>
+          <div class="cab-details">
+            <p><i class="fas fa-clock"></i> ${cab.time}</p>
+            <p><i class="fas fa-dollar-sign"></i> ${cab.price}</p>
+            <button onclick="bookCab(${cab.id})">Book Now</button>
+          </div>
+        `;
+        cabsList.appendChild(cabItem);
+      });
+    }
+
+    // Function to book a cab
+    function bookCab(cabId) {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (!isLoggedIn) {
+        alert('Please sign in to book this cab.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const cab = cabs.find(c => c.id === cabId);
+      if (confirm(`Are you sure you want to book a ${cab.type} for ${cab.price}?`)) {
+        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        bookings.push({ type: 'cab', ...cab });
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        window.location.href = 'cabbooking.html';
+      }
+    }
+
+    // Display all cabs on page load
+    window.onload = () => displayCabs(cabs);
+  </script>
+</head>
+<body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(to right, rgb(105, 146, 193, 0.9), rgb(105, 146, 193, 0.9));
+      padding: 10px 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .circular-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #121313;
+      transition: transform 0.3s ease;
+    }
+
+    .circular-logo:hover {
+      transform: scale(1.1);
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #F0FFFF, #F0FFFF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px; /* Adjusted spacing to match index.html */
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: #f7fdfb;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links li a i {
+      font-size: 1rem;
+    }
+
+    .nav-links li a:hover {
+      background-color: #e3f2fd;
+      color: #0071c2;
+    }
+
+    .nav-links li a.active {
+      background-color: #0071c2;
+      color: white;
+    }
+
+    .right-section {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    @media (max-width: 968px) {
+      .nav-links {
+        gap: 2px;
+      }
+      
+      .nav-links li a {
+        padding: 8px 8px;
+        font-size: 0.8rem;
+      }
+      
+      .right-section {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .nav-links, .right-section {
+        display: none;
+      }
+      
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: rgb(56, 45, 45);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1000;
+      }
+      
+      .right-section.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px 20px;
+      }
+      
+      .header-container {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+  <header>
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="images/1.jpg" alt="Make My Trip Logo" class="circular-logo">
+        <h1 class="brand-name">Make My Trip</h1>
+      </div>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="flights.html"><i class="fas fa-plane"></i> Flights</a></li>
+        <li><a href="hotels.html"><i class="fas fa-hotel"></i> Hotels</a></li>
+        <li><a href="holidays.html"><i class="fas fa-umbrella-beach"></i> Holidays</a></li>
+        <li><a href="trains.html"><i class="fas fa-train"></i> Trains</a></li>
+        <li><a href="cabs.html" class="active"><i class="fas fa-taxi"></i> Cabs</a></li>
+        <li><a href="visa.html"><i class="fas fa-passport"></i> Visa</a></li>
+        <li><a href="packages.html"><i class="fas fa-box"></i> Packages</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="cabs-hero" style="background-image:url('tr33.jpg');">
+    <div class="hero-content" >
+      <h1>Book Your Cab</h1>
+      <p>Choose from a wide range of cabs to travel in comfort and style.</p>
+      <div class="search-bar">
+        <input type="text" id="from" placeholder="From">
+        <input type="text" id="to" placeholder="To">
+        <input type="date" id="date" placeholder="Date">
+        <button onclick="handleSearch()"><i class="fas fa-search"></i> Search Cabs</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cabs-results">
+    <h2>Available Cabs</h2>
+    <div id="cabs-list" class="cabs-list"></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Make My Trip. All rights reserved.</p>
+  </footer>
+</body>
+</html>

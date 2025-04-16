@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Hotel & Get Free Meals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('background.jpg') no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        .offers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .offer-card {
+            position: relative;
+            width: 300px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            background: white;
+            padding-bottom: 10px;
+        }
+        .offer-card:hover {
+            transform: scale(1.05);
+        }
+        .offer-card img {
+            width: 100%;
+            display: block;
+        }
+        .offer-details {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .offer-card:hover .offer-details {
+            transform: translateY(0);
+        }
+        button {
+            background-color: #ff9800;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #e68900;
+        }
+        .more-photos {
+            display: none;
+            margin-top: 10px;
+        }
+        .more-photos img {
+            width: 200px;
+            height: 150px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .more-photos img:hover {
+            transform: scale(1.1);
+        }
+        .photo-buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" style="position: absolute; top: 10px; right: 10px; padding: 10px 15px; background-color: #ff9800; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Home</a>
+
+    <div class="container">
+        <h1>Book a Hotel & Get Free Meals!</h1>
+        <div class="offers">
+            <script>
+                const hotels = [
+                    { name: "Luxury Stay", img: "tr17.jpg", details: "Get free breakfast and dinner!", photos: ["tr1.jpg", "tr29.jpg"] },
+                    { name: "Beach Resort", img: "tr3.jpg", details: "Enjoy free seafood platter!", photos: ["tr18.jpg", "tr39.jpg"] },
+                    { name: "Mountain Retreat", img: "tr34.jpg", details: "Complimentary wine & dinner!", photos: ["tr40.jpg", "tr20.jpg"] },
+                    { name: "City Escape", img: "tr14.jpg", details: "Free drinks on arrival!", photos: ["tr23.jpg", "tr35.jpg"] },
+                    { name: "Lake View Hotel", img: "tr5.jpg", details: "Enjoy a romantic lakeside dinner!", photos: ["tr12.jpg", "tr30.jpg"] },
+                    { name: "Desert Oasis", img: "tr8.jpg", details: "Exclusive desert safari & buffet!", photos: ["tr21.jpg", "tr31.jpg"] },
+                ];
+                hotels.forEach((hotel, index) => {
+                    document.write(`
+                        <div class="offer-card">
+                            <img src="${hotel.img}" alt="${hotel.name}">
+                            <div class="offer-details">
+                                <h2>${hotel.name}</h2>
+                                <p>${hotel.details}</p>
+                                <button onclick="bookNow('${hotel.name}')">Book Now</button>
+                                <button onclick="showPhotos(${index})" id="show-${index}">Show Photos</button>
+                                <div class="more-photos" id="photos-${index}">
+                                    <img id="photo-${index}" src="" alt="">
+                                    <br>
+                                 <button onclick="bookNow('${hotel.name}')">Book Now</button>
+                                    <button onclick="nextPhoto(${index})">Next</button>
+                                    <button onclick="hidePhotos(${index})">Hide</button>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
+        </div>
+    </div>
+    <script>
+        function bookNow(hotel) {
+            alert('You have booked ' + hotel + '! Enjoy your free meals!');
+        }
+        function showPhotos(index) {
+            const photos = hotels[index].photos;
+            document.getElementById(`photo-${index}`).src = photos[0];
+            document.getElementById(`photos-${index}`).style.display = 'block';
+            document.getElementById(`show-${index}`).style.display = 'none';
+        }
+        function hidePhotos(index) {
+            document.getElementById(`photos-${index}`).style.display = 'none';
+            document.getElementById(`show-${index}`).style.display = 'inline-block';
+        }
+        function nextPhoto(index) {
+            const imgElement = document.getElementById(`photo-${index}`);
+            const photos = hotels[index].photos;
+            let currentIndex = photos.indexOf(imgElement.src.split('/').pop());
+            let nextIndex = (currentIndex + 1) % photos.length;
+            imgElement.src = photos[nextIndex];
+        }
+    </script>
+</body>
+</html>

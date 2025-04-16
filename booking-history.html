@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking History - Make My Trip</title>
+  <link rel="stylesheet" href="styles/booking-history.css">
+  <script>
+    // Function to display booking history
+    function displayBookings() {
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      const bookingsList = document.getElementById('bookings-list');
+      bookingsList.innerHTML = ''; // Clear previous content
+
+      if (bookings.length === 0) {
+        bookingsList.innerHTML = '<p>No bookings found.</p>';
+        return;
+      }
+
+      bookings.forEach(booking => {
+        const bookingItem = document.createElement('div');
+        bookingItem.className = 'booking-item';
+        bookingItem.innerHTML = `
+          <h3>${booking.type === 'flight' ? 'Flight' : 'Hotel'}: ${booking.airline || booking.name}</h3>
+          <p>Price: ${booking.price}</p>
+          <p>${booking.type === 'flight' ? `Time: ${booking.time}` : `Rating: ${booking.rating}`}</p>
+        `;
+        bookingsList.appendChild(bookingItem);
+      });
+    }
+
+    window.onload = displayBookings;
+  </script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="images/logo.png" alt="Make My Trip Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="booking-history.html">Booking History</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="booking-history">
+    <h1>Your Booking History</h1>
+    <div id="bookings-list" class="bookings-list"></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2023 Make My Trip. All rights reserved.</p>
+  </footer>
+</body>
+</html>

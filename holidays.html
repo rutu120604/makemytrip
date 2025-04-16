@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holidays - Make My Trip</title>
+  <link rel="stylesheet" href="styles/holidays.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(to right, rgb(105, 146, 193, 0.9), rgb(105, 146, 193, 0.9));
+      padding: 10px 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .circular-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #121313;
+      transition: transform 0.3s ease;
+    }
+
+    .circular-logo:hover {
+      transform: scale(1.1);
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #F0FFFF, #F0FFFF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: #f7fdfb;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links li a i {
+      font-size: 1rem;
+    }
+
+    .nav-links li a:hover {
+      background-color: #e3f2fd;
+      color: #0071c2;
+    }
+
+    .nav-links li a.active {
+      background-color: #0071c2;
+      color: white;
+    }
+
+    .right-section {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    @media (max-width: 968px) {
+      .nav-links {
+        gap: 2px;
+      }
+      
+      .nav-links li a {
+        padding: 8px 8px;
+        font-size: 0.8rem;
+      }
+      
+      .right-section {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .nav-links, .right-section {
+        display: none;
+      }
+      
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: rgb(56, 45, 45);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1000;
+      }
+      
+      .right-section.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px 20px;
+      }
+      
+      .header-container {
+        flex-wrap: wrap;
+      }
+    }
+
+    .holidays-hero {
+      background-image: url('tr6.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .holiday-packages {
+      padding: 20px;
+    }
+
+    .package-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .package-item {
+      position: relative;
+      width: calc(33.333% - 20px);
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .package-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .package-name {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 1.2rem;
+    }
+
+    .package-details {
+      position: absolute;
+      bottom: -100%;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px;
+      transition: bottom 0.3s ease;
+    }
+
+    .package-item:hover .package-details {
+      bottom: 0;
+    }
+
+    .package-details p {
+      margin: 0 0 15px;
+    }
+
+    .package-details a {
+      display: inline-block;
+      padding: 8px 15px;
+      background-color: #0071c2;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .modal-content button {
+      background-color: #0071c2;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="logo.png" alt="Make My Trip Logo" class="circular-logo">
+        <h1 class="brand-name">Make My Trip</h1>
+      </div>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="flights.html"><i class="fas fa-plane"></i> Flights</a></li>
+        <li><a href="hotels.html"><i class="fas fa-hotel"></i> Hotels</a></li>
+        <li><a href="holidays.html" class="active"><i class="fas fa-umbrella-beach"></i> Holidays</a></li>
+        <li><a href="trains.html"><i class="fas fa-train"></i> Trains</a></li>
+        <li><a href="cabs.html"><i class="fas fa-taxi"></i> Cabs</a></li>
+        <li><a href="visa.html"><i class="fas fa-passport"></i> Visa</a></li>
+        <li><a href="packages.html"><i class="fas fa-box"></i> Packages</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="holidays-hero">
+    <div class="hero-content">
+      <h1>Explore Exotic Destinations</h1>
+      <p>Find amazing holiday packages at unbeatable prices!</p>
+    </div>
+  </section>
+
+  <section class="holiday-packages">
+    <h2>Holiday Packages</h2>
+    <div class="package-list">
+      <div class="package-item">
+        <img src="tr19.jpg" alt="Beach Holidays">
+        <div class="package-name">Beach Holidays</div>
+        <div class="package-details">
+          <p>Enjoy a relaxing beach vacation at top destinations.</p>
+          <a href="#" onclick="openBookingModal('Beach Holidays')">Book Now</a>
+        </div>
+      </div>
+      <div class="package-item">
+        <img src="tr20.jpg" alt="Mountain Retreats">
+        <div class="package-name">Mountain Retreats</div>
+        <div class="package-details">
+          <p>Escape to the mountains for a peaceful getaway.</p>
+          <a href="#" onclick="openBookingModal('Mountain Retreats')">Book Now</a>
+        </div>
+      </div>
+      <div class="package-item">
+        <img src="tr21.jpg" alt="Desert Adventure">
+        <div class="package-name">Desert Adventure</div>
+        <div class="package-details">
+          <p>Explore vast dunes and oases on a thrilling desert journey.</p>
+          <a href="#" onclick="openBookingModal('Desert Adventure')">Book Now</a>
+        </div>
+      </div>
+      <div class="package-item">
+        <img src="tr22.jpg" alt="Cruises">
+        <div class="package-name">Cruises</div>
+        <div class="package-details">
+          <p>Sail to exotic destinations with luxury and stunning views.</p>
+          <a href="#" onclick="openBookingModal('Cruises')">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Make My Trip. All rights reserved.</p>
+  </footer>
+
+  <div id="booking-modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Book Holiday Package</h2>
+      <input type="text" id="name" placeholder="Full Name">
+      <input type="email" id="email" placeholder="Email">
+      <input type="tel" id="phone" placeholder="Phone Number">
+      <button onclick="confirmBooking()">Confirm Booking</button>
+      <button onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    let selectedPackage = '';
+
+    // Function to open booking modal
+    function openBookingModal(packageName) {
+      selectedPackage = packageName;
+      const modal = document.getElementById('booking-modal');
+      const modalTitle = document.getElementById('modal-title');
+      modalTitle.textContent = `Book ${packageName}`;
+      modal.style.display = 'flex';
+    }
+
+    // Function to close booking modal
+    function closeModal() {
+      const modal = document.getElementById('booking-modal');
+      modal.style.display = 'none';
+    }
+
+    // Function to confirm booking
+    function confirmBooking() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      if (!name || !email || !phone) {
+        alert('Please fill out all fields.');
+        return;
+      }
+
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      bookings.push({ type: 'holiday', package: selectedPackage, name, email, phone });
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+
+      alert(`Booking successful for ${selectedPackage}!`);
+      closeModal();
+    }
+  </script>
+</body>
+</html>

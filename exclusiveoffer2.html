@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Packages Starting at $99!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('tr32.jpg') no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        .container {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        .packages {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .package-card {
+            width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+            background: white;
+            color: black;
+            padding-bottom: 10px;
+        }
+        .package-card:hover {
+            transform: scale(1.05);
+        }
+        .package-card img {
+            width: 100%;
+            display: block;
+        }
+        .package-details {
+            padding: 15px;
+            text-align: center;
+        }
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff9800;
+        }
+        button {
+            background-color: #ff9800;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #e68900;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" style="position: absolute; top: 10px; right: 10px; padding: 10px 15px; background-color: #ff9800; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Home</a>
+
+    <div class="container">
+        <h1>Exclusive Holiday Packages Starting at Just $99!</h1>
+        <p>Unbeatable deals on the most breathtaking destinations!</p>
+        <div class="packages">
+            <script>
+                const packages = [
+                    { name: "Tropical Paradise", img: "tr19.jpg", price: "$99", details: "3 nights stay + breakfast" },
+                    { name: "Mountain Adventure", img: "tr34.jpg", price: "$129", details: "4 nights stay + guided hikes" },
+                    { name: "City Lights", img: "tr6.jpg", price: "$149", details: "2 nights stay + city tour" },
+                    { name: "Desert Escape", img: "tr4.jpg", price: "$119", details: "3 nights stay + camel safari" }
+                ];
+                packages.forEach(pkg => {
+                    document.write(`
+                        <div class="package-card">
+                            <img src="${pkg.img}" alt="${pkg.name}">
+                            <div class="package-details">
+                                <h2>${pkg.name}</h2>
+                                <p>${pkg.details}</p>
+                                <p class="price">${pkg.price}</p>
+                                <button onclick="bookPackage('${pkg.name}')">Book Now</button>
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
+        </div>
+    </div>
+    <script>
+        function bookPackage(packageName) {
+            alert('You have booked ' + packageName + '! Get ready for an amazing holiday!');
+        }
+    </script>
+</body>
+</html>

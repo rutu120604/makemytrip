@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flights - Make My Trip</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(to right, rgb(105, 146, 193, 0.9), rgb(105, 146, 193, 0.9));
+      padding: 10px 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .circular-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #121313;
+      transition: transform 0.3s ease;
+    }
+
+    .circular-logo:hover {
+      transform: scale(1.1);
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #F0FFFF, #F0FFFF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: #f7fdfb;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links li a i {
+      font-size: 1rem;
+    }
+
+    .nav-links li a:hover {
+      background-color: #e3f2fd;
+      color: #0071c2;
+    }
+
+    .nav-links li a.active {
+      background-color: #0071c2;
+      color: white;
+    }
+
+    .right-section {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    @media (max-width: 968px) {
+      .nav-links {
+        gap: 2px;
+      }
+      
+      .nav-links li a {
+        padding: 8px 8px;
+        font-size: 0.8rem;
+      }
+      
+      .right-section {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .nav-links, .right-section {
+        display: none;
+      }
+      
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: rgb(56, 45, 45);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1000;
+      }
+      
+      .right-section.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px 20px;
+      }
+      
+      .header-container {
+        flex-wrap: wrap;
+      }
+    }
+
+    .flights-hero {
+      background-image: url('tr11.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .search-bar input, .search-bar button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .search-bar button {
+      background-color: #0071c2;
+      color: white;
+      cursor: pointer;
+    }
+
+    .flights-results {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .flights-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .flight-item {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 300px;
+      transition: transform 0.3s ease;
+    }
+
+    .flight-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .flight-image {
+      height: 150px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .flight-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+    }
+
+    .flight-details {
+      padding: 15px;
+    }
+
+    .flight-details button {
+      background-color: #0071c2;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .no-flights {
+      text-align: center;
+      color: #666;
+      padding: 20px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #0071c2;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .confirm-btn {
+      background-color: #0071c2;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #f1f1f1;
+      color: #333;
+    }
+
+    .success-message {
+      display: none;
+      background-color: #dff0d8;
+      color: #3c763d;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .error-message {
+      display: none;
+      background-color: #f2dede;
+      color: #a94442;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="logo.png" alt="Make My Trip Logo" class="circular-logo">
+        <h1 class="brand-name">Make My Trip</h1>
+      </div>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="flights.html" class="active"><i class="fas fa-plane"></i> Flights</a></li>
+        <li><a href="hotels.html"><i class="fas fa-hotel"></i> Hotels</a></li>
+        <li><a href="holidays.html"><i class="fas fa-umbrella-beach"></i> Holidays</a></li>
+        <li><a href="trains.html"><i class="fas fa-train"></i> Trains</a></li>
+        <li><a href="cabs.html"><i class="fas fa-taxi"></i> Cabs</a></li>
+        <li><a href="visa.html"><i class="fas fa-passport"></i> Visa</a></li>
+        <li><a href="packages.html"><i class="fas fa-box"></i> Packages</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="flights-hero">
+    <div class="hero-content">
+      <h1>Book Your Flights</h1>
+      <p>Find the best deals on flights to your dream destinations.</p>
+      <div class="search-bar">
+        <input type="text" id="from" placeholder="From" list="from-cities">
+        <datalist id="from-cities">
+          <option value="New York">
+          <option value="London">
+          <option value="Paris">
+          <option value="Tokyo">
+          <option value="Dubai">
+          <option value="Sydney">
+          <option value="Mumbai">
+          <option value="Delhi">
+          <option value="Berlin">
+          <option value="Rome">
+          <option value="Madrid">
+          <option value="Toronto">
+          <option value="Chicago">
+          <option value="Los Angeles">
+          <option value="San Francisco">
+          <option value="Singapore">
+          <option value="Hong Kong">
+          <option value="Bangkok">
+          <option value="Seoul">
+          <option value="Beijing">
+        </datalist>
+        <input type="text" id="to" placeholder="To" list="to-cities">
+        <datalist id="to-cities">
+          <option value="New York">
+          <option value="London">
+          <option value="Paris">
+          <option value="Tokyo">
+          <option value="Dubai">
+          <option value="Sydney">
+          <option value="Mumbai">
+          <option value="Delhi">
+          <option value="Berlin">
+          <option value="Rome">
+          <option value="Madrid">
+          <option value="Toronto">
+          <option value="Chicago">
+          <option value="Los Angeles">
+          <option value="San Francisco">
+          <option value="Singapore">
+          <option value="Hong Kong">
+          <option value="Bangkok">
+          <option value="Seoul">
+          <option value="Beijing">
+        </datalist>
+        <input type="date" id="departure" placeholder="Departure">
+        <button onclick="handleSearch()"><i class="fas fa-search"></i> Search Flights</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="flights-results">
+    <h2>Available Flights</h2>
+    <div id="flights-list" class="flights-list"></div>
+  </section>
+
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal">
+    <div class="modal-content">
+      <h2>Book Your Flight</h2>
+      <form id="booking-form">
+        <div class="form-group">
+          <label for="booking-name">Full Name</label>
+          <input type="text" id="booking-name" required>
+        </div>
+        <div class="form-group">
+          <label for="booking-email">Email</label>
+          <input type="email" id="booking-email" required>
+        </div>
+        <div class="form-group">
+          <label for="booking-phone">Phone Number</label>
+          <input type="tel" id="booking-phone" required>
+        </div>
+        <div class="form-group">
+          <label for="booking-gender">Gender</label>
+          <select id="booking-gender" required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <input type="hidden" id="booking-flight-id">
+        <input type="hidden" id="booking-flight-name">
+        <input type="hidden" id="booking-source">
+        <input type="hidden" id="booking-destination">
+        <input type="hidden" id="booking-departure">
+        <input type="hidden" id="booking-price">
+        
+        <div class="modal-buttons">
+          <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="confirm-btn">Confirm Booking</button>
+        </div>
+      </form>
+      
+      <div id="success-message" class="success-message"></div>
+      <div id="error-message" class="error-message"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Make My Trip. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Sample data for flights
+    const flights = [
+      { 
+        id: 1, 
+        from: "New York", 
+        to: "Paris", 
+        airline: "Air India", 
+        price: 200, 
+        time: "10:00 AM", 
+        departure: "2025-04-01T10:00",
+        image: "tr8.jpg" 
+      },
+      { 
+        id: 2, 
+        from: "London", 
+        to: "Dubai", 
+        airline: "Emirates", 
+        price: 300, 
+        time: "12:00 PM",
+        departure: "2025-04-02T12:30",
+        image: "tr9.jpg" 
+      },
+      { 
+        id: 3, 
+        from: "Tokyo", 
+        to: "Sydney", 
+        airline: "Lufthansa", 
+        price: 250, 
+        time: "02:00 PM",
+        departure: "2025-04-03T14:00",
+        image: "tr10.jpg" 
+      },
+      { 
+        id: 4, 
+        from: "Mumbai", 
+        to: "New York", 
+        airline: "Delta", 
+        price: 400, 
+        time: "06:00 AM",
+        departure: "2025-04-04T06:00",
+        image: "tr11.jpg" 
+      },
+      { 
+        id: 5, 
+        from: "Dubai", 
+        to: "London", 
+        airline: "British Airways", 
+        price: 350, 
+        time: "08:00 PM",
+        departure: "2025-04-05T20:00",
+        image: "tr12.jpg" 
+      },
+    ];
+
+    // Mobile menu toggle functionality
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('active');
+      document.querySelector('.right-section').classList.toggle('active');
+    });
+
+    // Function to handle search
+    function handleSearch() {
+      const from = document.getElementById('from').value.toLowerCase();
+      const to = document.getElementById('to').value.toLowerCase();
+      const departure = document.getElementById('departure').value;
+
+      if (!from || !to || !departure) {
+        alert('Please fill out all fields.');
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      if (departure < today) {
+        alert('Please select a future date for departure.');
+        return;
+      }
+
+      const filteredFlights = flights.filter(flight => 
+        flight.from.toLowerCase().includes(from) && 
+        flight.to.toLowerCase().includes(to)
+      );
+
+      displayFlights(filteredFlights);
+    }
+
+    // Function to display flights
+    function displayFlights(flights) {
+      const flightsList = document.getElementById('flights-list');
+      flightsList.innerHTML = ''; // Clear previous results
+
+      if (flights.length === 0) {
+        flightsList.innerHTML = '<p class="no-flights">No flights found. Try adjusting your search.</p>';
+        return;
+      }
+
+      flights.forEach(flight => {
+        const flightItem = document.createElement('div');
+        flightItem.className = 'flight-item';
+        flightItem.innerHTML = `
+          <div class="flight-image" style="background-image: url('${flight.image}');">
+            <div class="flight-overlay">
+              <h3>${flight.airline}</h3>
+              <p>${flight.from} to ${flight.to}</p>
+            </div>
+          </div>
+          <div class="flight-details">
+            <p><i class="fas fa-clock"></i> ${flight.time}</p>
+            <p><i class="fas fa-dollar-sign"></i> ${flight.price}</p>
+            <button onclick="openBookingModal(${flight.id})">Book Now</button>
+          </div>
+        `;
+        flightsList.appendChild(flightItem);
+      });
+    }
+
+    // Function to open booking modal
+    function openBookingModal(flightId) {
+      const flight = flights.find(f => f.id === flightId);
+      if (!flight) return;
+
+      document.getElementById('booking-flight-id').value = flight.id;
+      document.getElementById('booking-flight-name').value = `${flight.airline} - ${flight.from} to ${flight.to}`;
+      document.getElementById('booking-source').value = flight.from;
+      document.getElementById('booking-destination').value = flight.to;
+      document.getElementById('booking-departure').value = flight.departure;
+      document.getElementById('booking-price').value = flight.price;
+
+      document.getElementById('booking-modal').style.display = 'flex';
+    }
+
+    // Function to close booking modal
+    function closeModal() {
+      document.getElementById('booking-modal').style.display = 'none';
+      document.getElementById('success-message').style.display = 'none';
+      document.getElementById('error-message').style.display = 'none';
+      document.getElementById('booking-form').reset();
+    }
+
+    // Handle form submission
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const bookingData = {
+        fullName: document.getElementById('booking-name').value,
+        email: document.getElementById('booking-email').value,
+        mobile: document.getElementById('booking-phone').value,
+        gender: document.getElementById('booking-gender').value,
+        flightId: document.getElementById('booking-flight-id').value,
+        flightName: document.getElementById('booking-flight-name').value,
+        source: document.getElementById('booking-source').value,
+        destination: document.getElementById('booking-destination').value,
+        dtime: document.getElementById('booking-departure').value,
+        cost: document.getElementById('booking-price').value
+      };
+
+      // Send booking data to server
+      fetch('http://127.0.0.1:3000/book-flight', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bookingData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          document.getElementById('error-message').textContent = data.error;
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('success-message').style.display = 'none';
+        } else {
+          document.getElementById('success-message').textContent = data.message || 'Booking successful!';
+          document.getElementById('success-message').style.display = 'block';
+          document.getElementById('error-message').style.display = 'none';
+          document.getElementById('booking-form').reset();
+          
+          // Optionally close the modal after a delay
+          setTimeout(() => {
+            closeModal();
+          }, 2000);
+        }
+      })
+      .catch(error => {
+        document.getElementById('error-message').textContent = 'Failed to book flight. Please try again.';
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('success-message').style.display = 'none';
+        console.error('Error:', error);
+      });
+    });
+
+    // Display all flights on page load
+    window.onload = () => displayFlights(flights);
+  </script>
+</body>
+</html>

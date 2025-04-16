@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Popup</title>
+    <style>
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 30px;
+        }
+        input {
+            color: #ffffff;
+        }
+
+        /* Chatbot Popup Styles */
+        .chatbot-popup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .chatbot-header {
+            background-color: #0071c2;
+            color: white;
+            padding: 15px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header .close-btn {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .chatbot-body {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chatbot-footer {
+            display: flex;
+            padding: 10px;
+            background-color: #fff;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .chatbot-footer input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .chatbot-footer button {
+            padding: 10px;
+            background-color: #0071c2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* Message Styles */
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .message.user {
+            background-color: #0071c2;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .message.bot {
+            background-color: #e1e1e1;
+            color: black;
+            margin-right: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="web.html" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; border: none;"></iframe>
+
+    <!-- Chatbot Popup -->
+    <div id="chatbot-popup" class="chatbot-popup">
+        <div class="chatbot-header">
+            <span class="close-btn" onclick="closeChatbot()">&times;</span>
+            <img src="ava.jpg" alt="logo" class="corner-image">
+            <h2>QueryQuill</h2>
+            <button class="cal-button"><a href="login1.html">
+                <img src="cal.png" alt="button" height="30" width="30" top="45">
+            </a></button>
+        </div>
+
+        <div class="chatbot-body" id="chatbot-body">
+            <!-- Chatbot messages and options will be dynamically added here -->
+        </div>
+        <div class="chatbot-footer">
+            <input type="text" id="userInput" placeholder="Type your query---" class="message-input" />
+            <button onclick="sendMessage()"><img src="send.png" alt="send" width="30" height="30"></button>
+        </div>
+    </div>
+
+    <!-- Button with image -->
+    <button id="chatbot-btn" class="image-button" onclick="openChatbot()">
+        <img src="ava.jpg" alt="Chat with us">
+    </button>
+
+    <script>
+        // Open chatbot popup
+        function openChatbot() {
+            document.getElementById("chatbot-popup").style.display = "block";
+        }
+
+        // Close chatbot popup
+        function closeChatbot() {
+            document.getElementById("chatbot-popup").style.display = "none";
+        }
+
+        // Send user query to Flask backend
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput").value.trim();
+            if (!userInput) return; // Do nothing if input is empty
+
+            // Add user's message to the chat
+            addMessage("user", userInput);
+
+            // Clear input field
+            document.getElementById("userInput").value = "";
+
+            try {
+                // Send query to Flask backend
+                const response = await fetch("/query", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ question: userInput }),
+                });
+
+                const data = await response.json();
+                const botResponse = data.answer;
+
+                // Add bot's response to the chat
+                addMessage("bot", botResponse);
+            } catch (error) {
+                console.error("Error:", error);
+                addMessage("bot", "Sorry, something went wrong. Please try again.");
+            }
+        }
+
+        // Add a message to the chat
+        function addMessage(sender, message) {
+            const chatbotBody = document.getElementById("chatbot-body");
+
+            // Create message element
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", sender);
+            messageDiv.textContent = message;
+
+            // Append message to chat body
+            chatbotBody.appendChild(messageDiv);
+
+            // Scroll to the bottom of the chat
+            chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }
+    </script>
+</body>
+</html>

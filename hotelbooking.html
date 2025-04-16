@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Booking - Make My Trip</title>
+  <link rel="stylesheet" href="styles/flightform.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="booking-container">
+    <div class="booking-form">
+      <h2>Hotel Booking</h2>
+      <form id="hotel-booking-form">
+        <div class="form-group">
+          <label for="full-name"><i class="fas fa-user"></i> Full Name</label>
+          <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="mobile"><i class="fas fa-phone"></i> Mobile Number</label>
+          <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
+        </div>
+
+        <div class="form-group">
+          <label for="hotel"><i class="fas fa-hotel"></i> Select Hotel</label>
+          <select id="hotel" name="hotel" required>
+            <option value="" disabled selected>Choose your hotel</option>
+            <option value="hotel-1">Luxury Resort - Bali - $200/night</option>
+            <option value="hotel-2">City View Hotel - New York - $150/night</option>
+            <option value="hotel-3">Beachfront Villa - Maldives - $300/night</option>
+            <option value="hotel-4">Mountain Retreat - Switzerland - $250/night</option>
+            <option value="hotel-5">Desert Oasis - Dubai - $180/night</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="check-in"><i class="fas fa-calendar-alt"></i> Check-in Date</label>
+          <input type="date" id="check-in" name="check-in" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="check-out"><i class="fas fa-calendar-alt"></i> Check-out Date</label>
+          <input type="date" id="check-out" name="check-out" required>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-venus-mars"></i> Gender</label>
+          <div class="gender-options">
+            <label>
+              <input type="radio" name="gender" value="male" required> Male
+            </label>
+            <label>
+              <input type="radio" name="gender" value="female" required> Female
+            </label>
+            <label>
+              <input type="radio" name="gender" value="other" required> Other
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-book">Book Hotel</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('hotel-booking-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const fullName = document.getElementById('full-name').value;
+      const email = document.getElementById('email').value;
+      const mobile = document.getElementById('mobile').value;
+      const hotel = document.getElementById('hotel').value;
+      const checkIn = document.getElementById('check-in').value;
+      const checkOut = document.getElementById('check-out').value;
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+
+      alert(`Booking successful!\n\nDetails:\nName: ${fullName}\nEmail: ${email}\nMobile: ${mobile}\nHotel: ${hotel}\nCheck-in: ${checkIn}\nCheck-out: ${checkOut}\nGender: ${gender}`);
+    });
+  </script>
+</body>
+</html>

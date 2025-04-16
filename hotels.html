@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotels - Make My Trip</title>
+  <link rel="stylesheet" href="styles/hotels.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(to right, rgb(105, 146, 193, 0.9), rgb(105, 146, 193, 0.9));
+      padding: 10px 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .circular-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #121313;
+      transition: transform 0.3s ease;
+    }
+
+    .circular-logo:hover {
+      transform: scale(1.1);
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #F0FFFF, #F0FFFF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: #f7fdfb;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links li a i {
+      font-size: 1rem;
+    }
+
+    .nav-links li a:hover {
+      background-color: #e3f2fd;
+      color: #0071c2;
+    }
+
+    .nav-links li a.active {
+      background-color: #0071c2;
+      color: white;
+    }
+
+    .right-section {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    @media (max-width: 968px) {
+      .nav-links {
+        gap: 2px;
+      }
+      
+      .nav-links li a {
+        padding: 8px 8px;
+        font-size: 0.8rem;
+      }
+      
+      .right-section {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .nav-links, .right-section {
+        display: none;
+      }
+      
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: rgb(56, 45, 45);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1000;
+      }
+      
+      .right-section.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px 20px;
+      }
+      
+      .header-container {
+        flex-wrap: wrap;
+      }
+    }
+
+    .hotels-hero {
+      background-image: url('tr38.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .search-bar input, .search-bar button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .search-bar button {
+      background-color: #0071c2;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hotels-results {
+      padding: 20px;
+    }
+
+    .hotels-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .hotel-item {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: calc(33.333% - 20px);
+    }
+
+    .hotel-image {
+      height: 150px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .hotel-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+    }
+
+    .hotel-details {
+      padding: 15px;
+    }
+
+    .hotel-details button {
+      background-color: #0071c2;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .no-hotels {
+      text-align: center;
+      color: #666;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-20px); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .modal-content button {
+      background-color: #0071c2;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="logo.png" alt="Make My Trip Logo" class="circular-logo">
+        <h1 class="brand-name">Make My Trip</h1>
+      </div>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="flights.html"><i class="fas fa-plane"></i> Flights</a></li>
+        <li><a href="hotels.html" class="active"><i class="fas fa-hotel"></i> Hotels</a></li>
+        <li><a href="holidays.html"><i class="fas fa-umbrella-beach"></i> Holidays</a></li>
+        <li><a href="trains.html"><i class="fas fa-train"></i> Trains</a></li>
+        <li><a href="cabs.html"><i class="fas fa-taxi"></i> Cabs</a></li>
+        <li><a href="visa.html"><i class="fas fa-passport"></i> Visa</a></li>
+        <li><a href="packages.html"><i class="fas fa-box"></i> Packages</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hotels-hero">
+    <div class="hero-content">
+      <h1>Find Your Perfect Stay</h1>
+      <p>Book hotels at the best prices.</p>
+      <div class="search-bar">
+        <input type="text" id="destination" placeholder="Destination" list="destinations">
+        <datalist id="destinations">
+          <option value="Bali, Indonesia">
+          <option value="New York, USA">
+          <option value="Maldives">
+          <option value="Switzerland">
+          <option value="Dubai, UAE">
+          <option value="Paris, France">
+          <option value="Tokyo, Japan">
+          <option value="Sydney, Australia">
+          <option value="London, UK">
+          <option value="Berlin, Germany">
+        </datalist>
+        <input type="date" id="check-in" placeholder="Check-in">
+        <input type="date" id="check-out" placeholder="Check-out">
+        <button onclick="handleSearch()"><i class="fas fa-search"></i> Search Hotels</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="hotels-results">
+    <h2>Available Hotels</h2>
+    <div id="hotels-list" class="hotels-list"></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Make My Trip. All rights reserved.</p>
+  </footer>
+
+  <div id="booking-modal" class="modal">
+    <div class="modal-content">
+      <h2>Book Hotel</h2>
+      <input type="text" id="name" placeholder="Full Name">
+      <input type="email" id="email" placeholder="Email">
+      <input type="tel" id="phone" placeholder="Phone Number">
+      <button onclick="confirmBooking()">Confirm Booking</button>
+      <button onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    // Sample data for hotels
+    const hotels = [
+      { id: 1, name: "Luxury Resort", location: "Bali, Indonesia", price: "$200/night", rating: 4.5, image: "tr14.jpg" },
+      { id: 2, name: "City View Hotel", location: "New York, USA", price: "$150/night", rating: 4.2, image: "tr15.jpg" },
+      { id: 3, name: "Beachfront Villa", location: "Maldives", price: "$300/night", rating: 4.8, image: "tr16.jpg" },
+      { id: 4, name: "Mountain Retreat", location: "Switzerland", price: "$250/night", rating: 4.6, image: "tr17.jpg" },
+      { id: 5, name: "Desert Oasis", location: "Dubai, UAE", price: "$180/night", rating: 4.3, image: "tr18.jpg" },
+    ];
+
+    // Function to handle search
+    function handleSearch() {
+      const destination = document.getElementById('destination').value.toLowerCase();
+      const checkIn = document.getElementById('check-in').value;
+      const checkOut = document.getElementById('check-out').value;
+
+      if (!destination || !checkIn || !checkOut) {
+        alert('Please fill out all fields.');
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0];
+      if (checkIn < today || checkOut < today) {
+        alert('Please select future dates for check-in and check-out.');
+        return;
+      }
+
+      const filteredHotels = hotels.filter(hotel => 
+        hotel.location.toLowerCase().includes(destination)
+      );
+
+      displayHotels(filteredHotels);
+    }
+
+    // Function to display hotels
+    function displayHotels(hotels) {
+      const hotelsList = document.getElementById('hotels-list');
+      hotelsList.innerHTML = ''; // Clear previous results
+
+      if (hotels.length === 0) {
+        hotelsList.innerHTML = '<p class="no-hotels">No hotels found. Try adjusting your search.</p>';
+        return;
+      }
+
+      hotels.forEach(hotel => {
+        const hotelItem = document.createElement('div');
+        hotelItem.className = 'hotel-item';
+        hotelItem.innerHTML = `
+          <div class="hotel-image" style="background-image: url('${hotel.image}');">
+            <div class="hotel-overlay">
+              <h3>${hotel.name}</h3>
+              <p>${hotel.location}</p>
+              <div class="rating">
+                ${Array(Math.floor(hotel.rating)).fill('<i class="fas fa-star"></i>').join('')}
+                ${hotel.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+              </div>
+            </div>
+          </div>
+          <div class="hotel-details">
+            <p><i class="fas fa-dollar-sign"></i> ${hotel.price}</p>
+            <button onclick="openBookingModal(${hotel.id})">Book Now</button>
+          </div>
+        `;
+        hotelsList.appendChild(hotelItem);
+      });
+    }
+
+    // Function to open booking modal
+    function openBookingModal(hotelId) {
+      const modal = document.getElementById('booking-modal');
+      modal.style.display = 'flex';
+      modal.dataset.hotelId = hotelId;
+    }
+
+    // Function to close booking modal
+    function closeModal() {
+      const modal = document.getElementById('booking-modal');
+      modal.style.display = 'none';
+    }
+
+    // Function to confirm booking
+    function confirmBooking() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      if (!name || !email || !phone) {
+        alert('Please fill out all fields.');
+        return;
+      }
+
+      const hotelId = document.getElementById('booking-modal').dataset.hotelId;
+      const hotel = hotels.find(h => h.id === parseInt(hotelId));
+
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      bookings.push({ type: 'hotel', ...hotel, name, email, phone });
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+
+      alert('Booking successful! Enjoy your stay.');
+      closeModal();
+    }
+
+    // Display all hotels on page load
+    window.onload = () => displayHotels(hotels);
+  </script>
+</body>
+</html>

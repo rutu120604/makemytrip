@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holiday Booking - Make My Trip</title>
+  <link rel="stylesheet" href="styles/flightform.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="booking-container">
+    <div class="booking-form">
+      <h2>Holiday Booking</h2>
+      <form id="holiday-booking-form">
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="full-name"><i class="fas fa-user"></i> Full Name</label>
+          <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="form-group">
+          <label for="mobile"><i class="fas fa-phone"></i> Mobile Number</label>
+          <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
+        </div>
+
+        <!-- Holiday Destination Dropdown -->
+        <div class="form-group">
+          <label for="destination"><i class="fas fa-suitcase-rolling"></i> Select Destination</label>
+          <select id="destination" name="destination" required>
+            <option value="" disabled selected>Choose your destination</option>
+            <option value="destination-1">Bali - $500</option>
+            <option value="destination-2">Paris - $700</option>
+            <option value="destination-3">Maldives - $800</option>
+            <option value="destination-4">New York - $600</option>
+          </select>
+        </div>
+
+        <!-- Gender Selection -->
+        <div class="form-group">
+          <label><i class="fas fa-venus-mars"></i> Gender</label>
+          <div class="gender-options">
+            <label>
+              <input type="radio" name="gender" value="male" required> Male
+            </label>
+            <label>
+              <input type="radio" name="gender" value="female" required> Female
+            </label>
+            <label>
+              <input type="radio" name="gender" value="other" required> Other
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-book">Book Holiday</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Optional: Add form submission handling
+    document.getElementById('holiday-booking-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const fullName = document.getElementById('full-name').value;
+      const email = document.getElementById('email').value;
+      const mobile = document.getElementById('mobile').value;
+      const destination = document.getElementById('destination').value;
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+
+      // Simulate booking success
+      alert(`Booking successful!\n\nDetails:\nName: ${fullName}\nEmail: ${email}\nMobile: ${mobile}\nDestination: ${destination}\nGender: ${gender}`);
+    });
+  </script>
+</body>
+</html>

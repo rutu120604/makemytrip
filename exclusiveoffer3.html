@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Up to 50% Off on Flights!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('tr32.jpg') no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        .container {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        .deals {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .deal-card {
+            width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+            background: white;
+            color: black;
+            padding-bottom: 10px;
+        }
+        .deal-card:hover {
+            transform: scale(1.05);
+        }
+        .deal-card img {
+            width: 100%;
+            display: block;
+        }
+        .deal-details {
+            padding: 15px;
+            text-align: center;
+        }
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff9800;
+        }
+        .validity {
+            font-size: 14px;
+            color: red;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #ff9800;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #e68900;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" style="position: absolute; top: 10px; right: 10px; padding: 10px 15px; background-color: #ff9800; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Home</a>
+
+    <div class="container">
+        <h1>Hurry! Up to 50% Off on Flights!</h1>
+        <p>Grab the best flight deals before they're gone!</p>
+        <div class="deals">
+            <script>
+                const flights = [
+                    { name: "New York - Paris", img: "tr8.jpg", price: "$199", validity: "Valid till March 10, 2025" },
+                    { name: "London - Dubai", img: "tr10.jpg", price: "$249", validity: "Valid till April 15, 2025" },
+                    { name: "Tokyo - Sydney", img: "tr11.jpg", price: "$299", validity: "Valid till March 20, 2025" },
+                    { name: "Los Angeles - Bangkok", img: "tr8.jpg", price: "$279", validity: "Valid till April 5, 2025" },
+                    { name: "Mumbai - Singapore", img: "tr10.jpg", price: "$189", validity: "Valid till March 30, 2025" },
+                    { name: "Toronto - Rome", img: "tr11.jpg", price: "$269", validity: "Valid till April 10, 2025" }
+                ];
+                flights.forEach(flight => {
+                    document.write(`
+                        <div class="deal-card">
+                            <img src="${flight.img}" alt="${flight.name}">
+                            <div class="deal-details">
+                                <h2>${flight.name}</h2>
+                                <p class="price">${flight.price}</p>
+                                <p class="validity">${flight.validity}</p>
+                                <button onclick="bookFlight('${flight.name}')">Book Now</button>
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
+        </div>
+    </div>
+    <script>
+        function bookFlight(flightName) {
+            alert('You have booked a flight: ' + flightName + '! Safe travels!');
+        }
+    </script>
+</body>
+</html>
