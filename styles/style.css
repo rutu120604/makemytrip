@@ -1,0 +1,176 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+  
+  header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  header .logo img {
+    height: 50px;
+  }
+  
+  header .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  header .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  header .auth-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  header .auth-buttons a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  header .user-profile {
+    display: none;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  header .user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background-image: url('../images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  
+  .search-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tabs .tab {
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .tabs .tab.active {
+    background: #0056b3;
+  }
+  
+  .tab-contents .tab-content {
+    display: none;
+  }
+  
+  .tab-contents .tab-content.active {
+    display: block;
+  }
+  
+  .search-bar {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .search-field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-field label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .search-field input,
+  .search-field select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .search-bar button {
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .search-bar button:hover {
+    background: #0056b3;
+  }
+  
+  /* Popular Destinations */
+  .popular-destinations {
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .popular-destinations h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .destination-carousel {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .destination-card {
+    width: 250px;
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .destination-image {
+    width: 100%;
+  }

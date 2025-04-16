@@ -1,0 +1,144 @@
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+header {
+  background-color: #2d3e50;
+  color: #fff;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #ff6b6b;
+}
+
+/* Hero Section */
+.holidays-hero {
+  height: 70vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/tr/images/tr6.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  animation: slideIn 1s ease-in-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+}
+
+/* Holiday Packages Section */
+.holiday-packages {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.holiday-packages h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #2d3e50;
+}
+
+.package-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.package-item {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.package-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.package-item img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.package-details {
+  padding: 20px;
+}
+
+.package-details h3 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.package-details p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.package-details a {
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff6b6b;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.package-details a:hover {
+  background-color: #e64c4c;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #2d3e50;
+  color: #fff;
+}

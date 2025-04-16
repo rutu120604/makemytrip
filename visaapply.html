@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visa Application - Make My Trip</title>
+  <link rel="stylesheet" href="styles/flightform.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="booking-container">
+    <div class="booking-form">
+      <h2>Visa Application</h2>
+      <form id="visa-application-form">
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="full-name"><i class="fas fa-user"></i> Full Name</label>
+          <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <!-- Passport Number -->
+        <div class="form-group">
+          <label for="passport"><i class="fas fa-passport"></i> Passport Number</label>
+          <input type="text" id="passport" name="passport" placeholder="Enter your passport number" required>
+        </div>
+
+        <!-- Nationality -->
+        <div class="form-group">
+          <label for="nationality"><i class="fas fa-globe"></i> Nationality</label>
+          <input type="text" id="nationality" name="nationality" placeholder="Enter your nationality" required>
+        </div>
+
+        <!-- Visa Type Dropdown -->
+        <div class="form-group">
+          <label for="visa-type"><i class="fas fa-file-alt"></i> Visa Type</label>
+          <select id="visa-type" name="visa-type" required>
+            <option value="" disabled selected>Choose visa type</option>
+            <option value="tourist">Tourist Visa</option>
+            <option value="business">Business Visa</option>
+            <option value="student">Student Visa</option>
+            <option value="work">Work Visa</option>
+          </select>
+        </div>
+
+        <!-- Travel Date -->
+        <div class="form-group">
+          <label for="travel-date"><i class="fas fa-calendar-alt"></i> Travel Date</label>
+          <input type="date" id="travel-date" name="travel-date" required>
+        </div>
+
+        <!-- Gender Selection -->
+        <div class="form-group">
+          <label><i class="fas fa-venus-mars"></i> Gender</label>
+          <div class="gender-options">
+            <label>
+              <input type="radio" name="gender" value="male" required> Male
+            </label>
+            <label>
+              <input type="radio" name="gender" value="female" required> Female
+            </label>
+            <label>
+              <input type="radio" name="gender" value="other" required> Other
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-book">Apply for Visa</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Optional: Add form submission handling
+    document.getElementById('visa-application-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const fullName = document.getElementById('full-name').value;
+      const email = document.getElementById('email').value;
+      const passport = document.getElementById('passport').value;
+      const nationality = document.getElementById('nationality').value;
+      const visaType = document.getElementById('visa-type').value;
+      const travelDate = document.getElementById('travel-date').value;
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+
+      // Simulate visa application success
+      alert(`Visa application successful!\n\nDetails:\nName: ${fullName}\nEmail: ${email}\nPassport: ${passport}\nNationality: ${nationality}\nVisa Type: ${visaType}\nTravel Date: ${travelDate}\nGender: ${gender}`);
+    });
+  </script>
+</body>
+</html>

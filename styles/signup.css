@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('../images/signup-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+  }
+  
+  .signup-hero {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .signup-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .signup-hero form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .signup-hero input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .signup-hero button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff5722;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .signup-hero p {
+    margin-top: 10px;
+  }
+  
+  .signup-hero a {
+    color: #ff5722;
+    text-decoration: none;
+  }

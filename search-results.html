@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results - Make My Trip</title>
+  <link rel="stylesheet" href="styles/search-results.css">
+  <script>
+    // Sample data for flights and hotels
+    const flights = [
+      { id: 1, airline: "Air India", price: "$200", time: "10:00 AM" },
+      { id: 2, airline: "Emirates", price: "$300", time: "12:00 PM" },
+      { id: 3, airline: "Lufthansa", price: "$250", time: "02:00 PM" },
+    ];
+
+    const hotels = [
+      { id: 1, name: "Taj Hotel", price: "$100/night", rating: "4.5" },
+      { id: 2, name: "Marriott", price: "$150/night", rating: "4.7" },
+      { id: 3, name: "Hilton", price: "$120/night", rating: "4.6" },
+    ];
+
+    // Function to display search results
+    function displayResults() {
+      const params = new URLSearchParams(window.location.search);
+      const destination = params.get('destination');
+      const checkIn = params.get('checkIn');
+      const checkOut = params.get('checkOut');
+
+      document.getElementById('search-query').innerText = `Results for ${destination} from ${checkIn} to ${checkOut}`;
+
+      const flightsList = document.getElementById('flights-list');
+      flights.forEach(flight => {
+        const flightItem = document.createElement('div');
+        flightItem.className = 'flight-item';
+        flightItem.innerHTML = `
+          <h3>${flight.airline}</h3>
+          <p>Price: ${flight.price}</p>
+          <p>Time: ${flight.time}</p>
+          <button onclick="bookFlight(${flight.id})">Book Now</button>
+        `;
+        flightsList.appendChild(flightItem);
+      });
+
+      const hotelsList = document.getElementById('hotels-list');
+      hotels.forEach(hotel => {
+        const hotelItem = document.createElement('div');
+        hotelItem.className = 'hotel-item';
+        hotelItem.innerHTML = `
+          <h3>${hotel.name}</h3>
+          <p>Price: ${hotel.price}</p>
+          <p>Rating: ${hotel.rating}</p>
+          <button onclick="bookHotel(${hotel.id})">Book Now</button>
+        `;
+        hotelsList.appendChild(hotelItem);
+      });
+    }
+
+    // Function to book a flight
+    // Function to book a flight
+function bookFlight(flightId) {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  if (!isLoggedIn) {
+    // Save the flight ID to localStorage for later use
+    localStorage.setItem('pendingBooking', JSON.stringify({ type: 'flight', id: flightId }));
+    alert('Please sign in to book this flight.');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const flight = flights.find(f => f.id === flightId);
+  if (confirm(`Are you sure you want to book ${flight.airline} for ${flight.price}?`)) {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    bookings.push({ type: 'flight', ...flight });
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+    alert('Booking successful!');
+    window.location.href = 'booking-history.html';
+  }
+}
+
+// Function to book a hotel
+function bookHotel(hotelId) {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  if (!isLoggedIn) {
+    // Save the hotel ID to localStorage for later use
+    localStorage.setItem('pendingBooking', JSON.stringify({ type: 'hotel', id: hotelId }));
+    alert('Please sign in to book this hotel.');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const hotel = hotels.find(h => h.id === hotelId);
+  if (confirm(`Are you sure you want to book ${hotel.name} for ${hotel.price}?`)) {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    bookings.push({ type: 'hotel', ...hotel });
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+    alert('Booking successful!');
+    window.location.href = 'booking-history.html';
+  }
+}
+// Function to auto-fill booking details after login
+function autoFillBooking() {
+  const params = new URLSearchParams(window.location.search);
+  const flightId = params.get('flightId');
+  const hotelId = params.get('hotelId');
+
+  if (flightId) {
+    const flight = flights.find(f => f.id === parseInt(flightId));
+    if (flight) {
+      alert(`You are booking ${flight.airline} for ${flight.price}.`);
+      bookFlight(flight.id);
+    }
+  } else if (hotelId) {
+    const hotel = hotels.find(h => h.id === parseInt(hotelId));
+    if (hotel) {
+      alert(`You are booking ${hotel.name} for ${hotel.price}.`);
+      bookHotel(hotel.id);
+    }
+  }
+}
+
+window.onload = function () {
+  displayResults();
+  autoFillBooking();
+};
+
+    window.onload = displayResults;
+  </script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="images/logo.png" alt="Make My Trip Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="booking-history.html">Booking History</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="search-results">
+    <h1 id="search-query"></h1>
+    <div class="results">
+      <h2>Flights</h2>
+      <div id="flights-list" class="flights-list"></div>
+      <h2>Hotels</h2>
+      <div id="hotels-list" class="hotels-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2023 Make My Trip. All rights reserved.</p>
+  </footer>
+</body>
+</html>
